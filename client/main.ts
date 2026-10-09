@@ -2,6 +2,7 @@ import './styles.css';
 import { getGuest, setGuestStage } from './data/guests';
 import { renderGuestAccessLog } from './views/guest-access-log';
 import { renderGuestProfile } from './views/guest-profile';
+import { closeContactForm, openContactForm, submitContact } from './views/journey-contact';
 
 type PropertyStatus = 'Approved' | 'Pending' | 'Rejected' | 'Suspended';
 type PropertyType = 'Hotel' | 'Travel agency';
@@ -331,6 +332,7 @@ document.querySelectorAll<HTMLButtonElement>('[data-view]').forEach((button) => 
   button.addEventListener('click', () => {
     currentView = button.dataset.view as View;
     notice = null;
+    closeContactForm();
     render();
   });
 });
@@ -347,6 +349,8 @@ document.querySelector<HTMLButtonElement>('#register-nav')?.addEventListener('cl
 
 app.addEventListener('click', async (event) => {
   if (!(event.target instanceof Element)) return;
+  if (event.target.closest('[data-contact-open]')) { openContactForm(); render(); return; }
+  if (event.target.closest('[data-contact-cancel]')) { closeContactForm(); render(); return; }
   const propertyLink = event.target.closest<HTMLButtonElement>('[data-open-property]');
   if (propertyLink?.dataset.openProperty) {
     selectedPropertyId = propertyLink.dataset.openProperty;
@@ -393,6 +397,11 @@ app.addEventListener('submit', async (event) => {
   if (!(event.target instanceof HTMLFormElement)) return;
   event.preventDefault();
   const form = event.target;
+  if (form.id === 'contact-form') {
+    submitContact(selectedGuestId, new FormData(form));
+    render();
+    return;
+  }
   if (form.id === 'registration-form') {
     const data = new FormData(form);
     const body = Object.fromEntries(data.entries());

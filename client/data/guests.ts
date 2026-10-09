@@ -1,4 +1,4 @@
-export type TimelineKind = 'case' | 'request' | 'message' | 'survey';
+export type TimelineKind = 'case' | 'request' | 'message' | 'survey' | 'call' | 'visit';
 
 export interface TimelineItem {
   id: string;
@@ -62,6 +62,11 @@ const guest: Guest = {
 // BACKEND LATER: replace the body with a PUT of the new stage.
 export function setGuestStage(_id: string, stage: string): void {
   guest.currentStage = stage;
+}
+
+// BACKEND LATER: replace the body with a POST of the new contact.
+export function addGuestContact(_id: string, kind: TimelineKind, title: string): void {
+  guest.timeline.push({ id: `local-${Date.now()}`, kind, title, at: Date.now() });
 }
 
 // BACKEND LATER: replace the body with a fetch of the guest profile + timeline.
