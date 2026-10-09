@@ -1,5 +1,6 @@
 import { escapeHtml, formatDateTime } from '../lib/common';
 import type { Guest } from '../data/guests';
+import { renderContactForm } from './journey-contact';
 import { renderJourneyStage } from './journey-stage';
 
 export function renderGuestHeader(guest: Guest): string {
@@ -31,9 +32,9 @@ export function renderTimeline(guest: Guest): string {
     <article class="glass-card panel">
       <div class="timeline-head">
         <div class="panel-heading"><span class="section-kicker">History</span><h2>Timeline</h2></div>
-        <div class="timeline-actions"></div>
+        <div class="timeline-actions"><button type="button" class="gold-button" data-contact-open>Add</button></div>
       </div>
-      <div id="contact-slot"></div>
+      <div id="contact-slot">${renderContactForm()}</div>
       ${items.length
         ? `<ul class="timeline" id="guest-timeline">${items.map((item) => `
             <li>
