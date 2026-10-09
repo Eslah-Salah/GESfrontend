@@ -1,9 +1,10 @@
 import './styles.css';
+import { renderGuestAccessLog } from './views/guest-access-log';
 
 type PropertyStatus = 'Approved' | 'Pending' | 'Rejected' | 'Suspended';
 type PropertyType = 'Hotel' | 'Travel agency';
 type PropertyAction = 'Approve' | 'Reject' | 'Suspend' | 'Turn back on';
-type View = 'admin' | 'property' | 'register';
+type View = 'admin' | 'property' | 'register' | 'guest-access-log';
 
 interface PropertyLog {
   at: number;
@@ -277,7 +278,9 @@ function render(): void {
     ? renderRegistration()
     : currentView === 'property'
       ? renderPropertyView()
-      : renderAdmin();
+      : currentView === 'guest-access-log'
+        ? renderGuestAccessLog()
+        : renderAdmin();
   const errorNotice = notice && currentView !== 'register'
     ? `<div class="notice" role="alert">${escapeHtml(notice.message)}</div>`
     : '';
@@ -302,7 +305,11 @@ function showError(error: unknown): void {
 
 document.querySelectorAll<HTMLButtonElement>('[data-role]').forEach((button) => {
   button.addEventListener('click', () => {
-    currentView = button.dataset.role === 'property' ? 'property' : 'admin';
+    currentView = button.dataset.role === 'property'
+      ? 'property'
+      : button.dataset.role === 'guest-access-log'
+        ? 'guest-access-log'
+        : 'admin';
     notice = null;
     render();
   });
