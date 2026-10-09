@@ -172,6 +172,21 @@ button:focus-visible, input:focus-visible, select:focus-visible {
 .access-refused { text-align: center; padding: 56px 24px; }
 .access-refused h2 { font-family: "Playfair Display", serif; font-size: 28px; font-weight: 400; margin-bottom: 8px; }
 
+/* ---- Hind: task 28 ---- */
+.guest-grid { display: grid; gap: 18px; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr); margin-top: 18px; }
+@media (max-width: 900px) { .guest-grid { grid-template-columns: 1fr; } }
+.guest-header h2 { font-family: "Playfair Display", serif; font-size: 26px; font-weight: 400; margin: 4px 0; }
+.guest-phone { margin: 6px 0 0; font-size: 13px; font-weight: 600; color: #3b3e44; }
+.pref-list { display: grid; gap: 10px; margin: 0; }
+.pref-list div { display: flex; justify-content: space-between; gap: 12px; border-bottom: 1px solid #efede7; padding-bottom: 8px; font-size: 12px; }
+.pref-list dt { color: #7d8490; }
+.pref-list dd { margin: 0; font-weight: 600; color: #3b3e44; }
+.timeline { list-style: none; margin: 0; padding: 0; }
+.timeline li { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px solid #efede7; font-size: 12px; }
+.timeline-date { margin-left: auto; color: #7d8490; font-size: 11px; white-space: nowrap; }
+.timeline-kind { text-transform: uppercase; letter-spacing: .12em; font-size: 9px; font-weight: 700; padding: 4px 8px; border-radius: 999px; border: 1px solid #e7e4dc; background: #fbfaf7; color: #806112; }
+.timeline-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+
 @media (max-width: 780px) {
   .sidebar { @apply w-[220px] px-4; }
   .app-main { @apply px-[18px] pt-[38px] pb-[52px]; margin-left: 220px; width: calc(100% - 220px); }
