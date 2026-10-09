@@ -1,10 +1,12 @@
 import './styles.css';
+import { getGuest } from './data/guests';
 import { renderGuestAccessLog } from './views/guest-access-log';
+import { renderGuestProfile } from './views/guest-profile';
 
 type PropertyStatus = 'Approved' | 'Pending' | 'Rejected' | 'Suspended';
 type PropertyType = 'Hotel' | 'Travel agency';
 type PropertyAction = 'Approve' | 'Reject' | 'Suspend' | 'Turn back on';
-type View = 'admin' | 'property' | 'register' | 'guest-access-log';
+type View = 'admin' | 'property' | 'register' | 'guest-access-log' | 'guest-profile';
 
 interface PropertyLog {
   at: number;
@@ -48,6 +50,7 @@ let properties: PropertyRecord[] = [];
 let currentView: View = 'admin';
 let selectedPropertyId: string | null = null;
 let notice: { message: string; success: boolean } | null = null;
+const selectedGuestId = 'guest-001'; // demo default; the guest search page (another task) will set this later
 
 async function api<T>(path: string, options: RequestInit = {}): Promise<T> {
   const response = await fetch(`/api${path}`, {
@@ -274,13 +277,20 @@ function render(): void {
     button.classList.toggle('active', active);
     button.setAttribute('aria-pressed', String(active));
   });
+  document.querySelectorAll<HTMLButtonElement>('[data-view]').forEach((button) => {
+    const active = button.dataset.view === currentView;
+    button.classList.toggle('active', active);
+    button.setAttribute('aria-pressed', String(active));
+  });
   const page = currentView === 'register'
     ? renderRegistration()
     : currentView === 'property'
       ? renderPropertyView()
       : currentView === 'guest-access-log'
         ? renderGuestAccessLog()
-        : renderAdmin();
+        : currentView === 'guest-profile'
+          ? renderGuestProfile(getGuest(selectedGuestId))
+          : renderAdmin();
   const errorNotice = notice && currentView !== 'register'
     ? `<div class="notice" role="alert">${escapeHtml(notice.message)}</div>`
     : '';
@@ -309,7 +319,17 @@ document.querySelectorAll<HTMLButtonElement>('[data-role]').forEach((button) => 
       ? 'property'
       : button.dataset.role === 'guest-access-log'
         ? 'guest-access-log'
-        : 'admin';
+        : button.dataset.role === 'guest-profile'
+          ? 'guest-profile'
+          : 'admin';
+    notice = null;
+    render();
+  });
+});
+
+document.querySelectorAll<HTMLButtonElement>('[data-view]').forEach((button) => {
+  button.addEventListener('click', () => {
+    currentView = button.dataset.view as View;
     notice = null;
     render();
   });
