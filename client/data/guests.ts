@@ -12,11 +12,21 @@ export interface GuestPreference {
   value: string;
 }
 
+export type PropertyType = 'Hotel' | 'Travel agency';
+
+// PLACEHOLDER stage names - replace when the real lists are confirmed with the backend dev.
+export const STAGES_BY_TYPE: Record<PropertyType, string[]> = {
+  Hotel: ['Pre-arrival', 'Check-in', 'In-stay', 'Check-out', 'Post-stay'],
+  'Travel agency': ['Inquiry', 'Quotation', 'Booking confirmed', 'Travelling', 'Follow-up'],
+};
+
 export interface Guest {
   id: string;
   name: string;
   nameAr: string;
   phone: string;
+  propertyType: PropertyType;
+  currentStage: string;
   preferences: GuestPreference[];
   timeline: TimelineItem[];
 }
@@ -29,6 +39,8 @@ const guest: Guest = {
   name: 'Layla Mansour',
   nameAr: 'ليلى منصور',
   phone: '+966 55 123 4567',
+  propertyType: 'Hotel',
+  currentStage: 'In-stay',
   preferences: [
     { label: 'Room', value: 'High floor, quiet' },
     { label: 'Pillow', value: 'Soft' },
@@ -46,6 +58,11 @@ const guest: Guest = {
     { id: 't7', kind: 'case', title: 'Billing question resolved', at: now - 10 * DAY },
   ],
 };
+
+// BACKEND LATER: replace the body with a PUT of the new stage.
+export function setGuestStage(_id: string, stage: string): void {
+  guest.currentStage = stage;
+}
 
 // BACKEND LATER: replace the body with a fetch of the guest profile + timeline.
 export function getGuest(_id: string): Guest {

@@ -1,5 +1,5 @@
 import './styles.css';
-import { getGuest } from './data/guests';
+import { getGuest, setGuestStage } from './data/guests';
 import { renderGuestAccessLog } from './views/guest-access-log';
 import { renderGuestProfile } from './views/guest-profile';
 
@@ -380,6 +380,13 @@ app.addEventListener('click', async (event) => {
     notice = null;
     render();
   }
+});
+
+app.addEventListener('change', (event) => {
+  const target = event.target;
+  if (!(target instanceof HTMLSelectElement) || !target.matches('[data-journey-stage]')) return;
+  setGuestStage(selectedGuestId, target.value);
+  render();
 });
 
 app.addEventListener('submit', async (event) => {
