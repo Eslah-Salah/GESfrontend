@@ -1,5 +1,6 @@
 import { escapeHtml, formatDateTime } from '../lib/common';
 import type { Guest } from '../data/guests';
+import { renderJourneyStage } from './journey-stage';
 
 export function renderGuestHeader(guest: Guest): string {
   return `
@@ -8,6 +9,7 @@ export function renderGuestHeader(guest: Guest): string {
       <h2>${escapeHtml(guest.name)}</h2>
       <p class="subtle" lang="ar" dir="rtl">${escapeHtml(guest.nameAr)}</p>
       <p class="guest-phone">${escapeHtml(guest.phone)}</p>
+      ${renderJourneyStage(guest)}
     </article>`;
 }
 
