@@ -1,4 +1,5 @@
 import './styles.css';
+import { renderPlatformUsage } from './views/platform-usage';
 import { getGuest, setGuestStage } from './data/guests';
 import { renderGuestAccessLog } from './views/guest-access-log';
 import { renderGuestProfile } from './views/guest-profile';
@@ -7,7 +8,7 @@ import { closeContactForm, openContactForm, submitContact } from './views/journe
 type PropertyStatus = 'Approved' | 'Pending' | 'Rejected' | 'Suspended';
 type PropertyType = 'Hotel' | 'Travel agency';
 type PropertyAction = 'Approve' | 'Reject' | 'Suspend' | 'Turn back on';
-type View = 'admin' | 'property' | 'register' | 'guest-access-log' | 'guest-profile';
+type View = 'admin' | 'property' | 'register' | 'guest-access-log' | 'guest-profile' | 'platform-usage';
 
 interface PropertyLog {
   at: number;
@@ -291,7 +292,9 @@ function render(): void {
         ? renderGuestAccessLog()
         : currentView === 'guest-profile'
           ? renderGuestProfile(getGuest(selectedGuestId))
-          : renderAdmin();
+          : currentView === 'platform-usage'
+            ? renderPlatformUsage()
+            : renderAdmin();
   const errorNotice = notice && currentView !== 'register'
     ? `<div class="notice" role="alert">${escapeHtml(notice.message)}</div>`
     : '';
