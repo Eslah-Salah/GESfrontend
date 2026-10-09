@@ -168,6 +168,10 @@ button:focus-visible, input:focus-visible, select:focus-visible {
   .success-notice { @apply border-emerald-300/20 bg-emerald-500/[0.08] text-emerald-200; }
 }
 
+/* ---- Hind: task 22 ---- */
+.access-refused { text-align: center; padding: 56px 24px; }
+.access-refused h2 { font-family: "Playfair Display", serif; font-size: 28px; font-weight: 400; margin-bottom: 8px; }
+
 @media (max-width: 780px) {
   .sidebar { @apply w-[220px] px-4; }
   .app-main { @apply px-[18px] pt-[38px] pb-[52px]; margin-left: 220px; width: calc(100% - 220px); }
